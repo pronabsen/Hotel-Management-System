@@ -41,6 +41,7 @@ public class UpdateCheck extends JFrame implements ActionListener {
             while (rs.next()) {
                 customer.add(rs.getString("number"));
             }
+            conn.closeConnection();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error loading customer IDs.");
             e.printStackTrace();
@@ -209,6 +210,7 @@ public class UpdateCheck extends JFrame implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Customer not found or data not updated.");
             }
+            conn.closeConnection();
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error updating data.");

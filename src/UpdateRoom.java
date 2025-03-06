@@ -39,6 +39,7 @@ public class UpdateRoom extends JFrame implements ActionListener {
             while (rs.next()) {
                 customer.add(rs.getString("number"));
             }
+            conn.closeConnection();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error loading customers.");
             e.printStackTrace();
@@ -121,7 +122,7 @@ public class UpdateRoom extends JFrame implements ActionListener {
             DatabaseConnect conn = new DatabaseConnect();
             String updateQuery = "UPDATE room SET availability='" + availability + "', cleanliness='" + status + "' WHERE roomno='" + roomNo + "'";
             conn.statement.executeUpdate(updateQuery);
-
+            conn.closeConnection();
             JOptionPane.showMessageDialog(null, "Room Status Updated Successfully");
             setVisible(false);
             new Dashboard();
@@ -153,6 +154,7 @@ public class UpdateRoom extends JFrame implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "No Data Found");
             }
+            conn.closeConnection();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error fetching room details.");

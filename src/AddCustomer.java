@@ -127,6 +127,7 @@ public class AddCustomer extends JFrame implements ActionListener {
             while (rs.next()) {
                 croom.add(rs.getString("roomno"));
             }
+            conn.closeConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }
