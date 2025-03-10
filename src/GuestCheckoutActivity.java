@@ -6,13 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.util.Date;
-public class Checkout extends JFrame implements ActionListener {
+import widgets.RoundedGradientButton;
+
+public class GuestCheckoutActivity extends JFrame implements ActionListener {
 
     Choice customerid;
     JLabel lbroomno,lbcheckintime,lbcheckOutTime;
-    Dashboard.RoundedGradientButton checkOut,back;
+    RoundedGradientButton checkOut;
+    RoundedGradientButton back;
 
-    Checkout(){
+    GuestCheckoutActivity(){
         setTitle("Hotel Management System - Guests Checkout");
         setLayout(null);
         setVisible(true);
@@ -67,14 +70,14 @@ public class Checkout extends JFrame implements ActionListener {
         add(lbcheckOutTime);
 
 
-        checkOut=new Dashboard.RoundedGradientButton("CHECK OUT", null);
+        checkOut=new RoundedGradientButton("CHECK OUT", null);
         checkOut.setBounds(30,280,120,30);
         checkOut.setForeground(Color.white);
         checkOut.setBackground(Color.BLACK);
         add(checkOut);
         checkOut.addActionListener(this);
 
-        back=new Dashboard.RoundedGradientButton("BACK", null);
+        back=new RoundedGradientButton("BACK", null);
         back.setBounds(200,280,120,30);
         back.setForeground(Color.white);
         back.setBackground(Color.BLACK);
@@ -122,10 +125,10 @@ public class Checkout extends JFrame implements ActionListener {
 
         } else if(ae.getSource()==back){
             setVisible(false);
-            new Dashboard();
+            new DashboardActivity();
         }
     }
     public static void main(String  args[]){
-        new Checkout();
+        new GuestCheckoutActivity();
     }
 }

@@ -9,13 +9,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import widgets.RoundedGradientButton;
 
 
-
-public class CustomerInfo extends JFrame implements ActionListener {
+public class CustomerListActivity extends JFrame implements ActionListener {
     JTable table;
-    Dashboard.RoundedGradientButton back;
-    CustomerInfo(){
+    RoundedGradientButton back;
+    CustomerListActivity(){
         setTitle("Hotel Management System - Guests Management");
         setVisible(true);
         setLayout(null);
@@ -75,7 +75,7 @@ public class CustomerInfo extends JFrame implements ActionListener {
         }
 
         // Back Button
-        back = new Dashboard.RoundedGradientButton("BACK", null);
+        back = new RoundedGradientButton("BACK", null);
         back.setFont(new Font("Raleway", Font.BOLD, 16));
         back.setBackground(Color.BLACK);
         back.setForeground(Color.WHITE);
@@ -89,12 +89,12 @@ public class CustomerInfo extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource()==back){
             setVisible(false);
-            new Dashboard();
+            new DashboardActivity();
         }
     }
 
     public static void main(String args[]){
-        new CustomerInfo();
+        new CustomerListActivity();
     }
 
 }

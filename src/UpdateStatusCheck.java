@@ -1,35 +1,30 @@
 import databse.DatabaseConnect;
-import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import widgets.RoundedGradientButton;
 
-public class AddReservation extends JFrame implements ActionListener {
-    Choice customer, croom;
-    JTextField tfname, tfcheckin, tfpaid, tfpending, tfstatus;
-    Dashboard.RoundedGradientButton check, newUser, update, back;
-    JTable table;
+public class UpdateStatusCheck extends JFrame implements ActionListener {
+    Choice customer;
+    JTextField tfroom, tfname, tfcheckin, tfpaid, tfpending, tfstatus;
+    RoundedGradientButton check;
+    RoundedGradientButton update, back;
 
-    AddReservation() {
-        setTitle("Hotel Management System - Add Reservation");
-        setBounds(300, 150, 1000, 540);
+    UpdateStatusCheck() {
+        setTitle("Hotel Management System - Update Customer Status");
+        setBounds(300, 150, 480, 500);
         setLayout(null);
         setVisible(true);
         getContentPane().setBackground(Color.white);
 
-        JLabel text = new JLabel("ADD RESERVATION");
+        JLabel text = new JLabel("UPDATE STATUS");
         text.setFont(new Font("Raleway", Font.BOLD, 25));
-        text.setBounds(110, 20, 250, 30);
+        text.setBounds(90, 20, 250, 30);
         text.setForeground(Color.black);
         add(text);
 
@@ -44,10 +39,11 @@ public class AddReservation extends JFrame implements ActionListener {
 
         try {
             DatabaseConnect conn = new DatabaseConnect();
-            ResultSet rs = conn.statement.executeQuery("SELECT * FROM customer where status = 'New' or status = 'Check Out'");
+            ResultSet rs = conn.statement.executeQuery("SELECT * FROM customer");
             while (rs.next()) {
                 customer.add(rs.getString("number"));
             }
+            conn.closeConnection();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error loading customer IDs.");
             e.printStackTrace();
@@ -58,32 +54,10 @@ public class AddReservation extends JFrame implements ActionListener {
         lbroom.setFont(new Font("Raleway", Font.BOLD, 14));
         add(lbroom);
 
-        croom = new Choice();
-        croom.setBounds(200, 120, 180, 25);
-        add(croom);
-
-        croom.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-
-                try {
-                    DatabaseConnect conn = new DatabaseConnect();
-
-                    String query = "SELECT * FROM room WHERE roomno = ?";
-                    PreparedStatement pst = conn.connection.prepareStatement(query);
-                    pst.setString(1, croom.getSelectedItem().toString());
-                    ResultSet rs = pst.executeQuery();
-
-                    while (rs.next()) {
-                        tfpaid.setText(rs.getString("price"));
-                    }
-                } catch (Exception es) {
-                    JOptionPane.showMessageDialog(null, "Error loading customer IDs.");
-                    es.printStackTrace();
-                }
-
-            }
-        });
+        tfroom = new JTextField();
+        tfroom.setBounds(200, 120, 180, 25);
+        tfroom.setEditable(false);
+        add(tfroom);
 
         JLabel lbname = new JLabel("NAME:");
         lbname.setBounds(30, 160, 150, 25);
@@ -134,79 +108,22 @@ public class AddReservation extends JFrame implements ActionListener {
         tfstatus.setEditable(false);
         add(tfstatus);
 
-        JLabel titleRm = new JLabel("ROOM DETAILS", JLabel.CENTER);
-        titleRm.setFont(new Font("Raleway", Font.BOLD, 18));
-        titleRm.setForeground(Color.BLACK);
-        titleRm.setBounds(420, 10, 550, 30);
-        add(titleRm);
-
-        // Table setup
-        table = new JTable();
-        table.setFont(new Font("Raleway", Font.PLAIN, 16));
-        table.setRowHeight(25);
-
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Raleway", Font.BOLD, 16));
-        header.setForeground(Color.BLACK);
-
-        // Convert headers to ALL CAPS
-        header.setDefaultRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                JLabel label = new JLabel(value.toString().toUpperCase(), JLabel.CENTER);
-                label.setFont(new Font("Raleway", Font.BOLD, 16));
-                return label;
-            }
-        });
-
-        // Center align table headers
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        centerRenderer.setFont(new Font("Raleway", Font.PLAIN, 16));
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(420, 50, 550, 380);
-        add(scrollPane);
-
-        // Fetch data from the database
-        try {
-            DatabaseConnect conn = new DatabaseConnect();
-            ResultSet rs = conn.statement.executeQuery("SELECT * FROM room WHERE availability='Available'");
-            table.setModel(DbUtils.resultSetToTableModel(rs));
-
-            // Apply center alignment to all columns
-            for (int i = 0; i < table.getColumnCount(); i++) {
-                table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        newUser = new Dashboard.RoundedGradientButton("Add New Customer", null);
-        newUser.setBounds(120, 380, 200, 30);
-        newUser.setBackground(Color.BLACK);
-        newUser.setForeground(Color.WHITE);
-        newUser.addActionListener(this);
-        add(newUser);
-
-        check = new Dashboard.RoundedGradientButton("CHECK", null);
-        check.setBounds(30, 440, 100, 30);
+        check = new RoundedGradientButton("CHECK", null);
+        check.setBounds(30, 380, 100, 30);
         check.setBackground(Color.BLACK);
         check.setForeground(Color.WHITE);
         check.addActionListener(this);
         add(check);
 
-        update = new Dashboard.RoundedGradientButton("Add", null);
-        update.setBounds(150, 440, 100, 30);
+        update = new RoundedGradientButton("UPDATE", null);
+        update.setBounds(150, 380, 100, 30);
         update.setBackground(Color.BLACK);
         update.setForeground(Color.WHITE);
         update.addActionListener(this);
-        update.setVisible(false);
         add(update);
 
-        back = new Dashboard.RoundedGradientButton("BACK", null);
-        back.setBounds(270, 440, 100, 30);
+        back = new RoundedGradientButton("BACK", null);
+        back.setBounds(270, 380, 100, 30);
         back.setBackground(Color.BLACK);
         back.setForeground(Color.WHITE);
         back.addActionListener(this);
@@ -216,13 +133,11 @@ public class AddReservation extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == check) {
             fetchCustomerData();
-        } else if (ae.getSource() == newUser) {
-            new AddCustomer();
-        }  else if (ae.getSource() == update) {
+        } else if (ae.getSource() == update) {
             updateCustomerData();
         } else if (ae.getSource() == back) {
             setVisible(false);
-            new Dashboard();
+            new DashboardActivity();
         }
     }
 
@@ -237,24 +152,28 @@ public class AddReservation extends JFrame implements ActionListener {
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
+                tfroom.setText(rs.getString("room"));
                 tfname.setText(rs.getString("name"));
-                tfcheckin.setText("" + new Date());
-                tfpaid.setText("0.0");
-                tfstatus.setText("Check In");
+                tfcheckin.setText(rs.getString("time"));
+                tfpaid.setText(rs.getString("deposite"));
+                tfstatus.setText(rs.getString("status"));
             }
 
-            try {
-                ResultSet rs2 = conn.statement.executeQuery("SELECT roomno FROM room WHERE availability='Available'");
-                while (rs2.next()) {
-                    croom.add(rs2.getString("roomno"));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            // Calculate pending amount
+            String roomNo = tfroom.getText();
+            String roomQuery = "SELECT price FROM room WHERE roomno=?";
+            PreparedStatement pst2 = conn.connection.prepareStatement(roomQuery);
+            pst2.setString(1, roomNo);
+            ResultSet rs2 = pst2.executeQuery();
+
+            if (rs2.next()) {
+                int price = rs2.getInt("price");
+                float amtPaid = Float.parseFloat(tfpaid.getText().trim());
+                float pendingAmount = price - amtPaid;
+                tfpending.setText(String.valueOf(pendingAmount));
             }
 
-            update.setVisible(true);
             conn.closeConnection();
-
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error fetching data.");
@@ -264,11 +183,12 @@ public class AddReservation extends JFrame implements ActionListener {
 
     private void updateCustomerData() {
         String number = customer.getSelectedItem();
-        String roomNo = croom.getSelectedItem();
+        String roomNo = tfroom.getText();
+        String name = tfname.getText();
         String checkin = tfcheckin.getText();
         String deposit = tfpaid.getText();
 
-        if (roomNo.isEmpty() || checkin.isEmpty() || deposit.isEmpty()) {
+        if (roomNo.isEmpty() || name.isEmpty() || checkin.isEmpty() || deposit.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all the fields.");
             return;
         }
@@ -276,21 +196,23 @@ public class AddReservation extends JFrame implements ActionListener {
         try {
             DatabaseConnect conn = new DatabaseConnect();
 
-            String updateQuery = "UPDATE customer SET room=?, time=?, deposite=?,status='Check In' WHERE number=?";
+            String updateQuery = "UPDATE customer SET room=?, name=?, time=?, deposite=? WHERE number=?";
             PreparedStatement pst = conn.connection.prepareStatement(updateQuery);
             pst.setString(1, roomNo);
-            pst.setString(2, checkin);
-            pst.setString(3, deposit);
-            pst.setString(4, number);
+            pst.setString(2, name);
+            pst.setString(3, checkin);
+            pst.setString(4, deposit);
+            pst.setString(5, number);
 
             int rowsUpdated = pst.executeUpdate();
             if (rowsUpdated > 0) {
                 JOptionPane.showMessageDialog(null, "Data Updated Successfully");
                 setVisible(false);
-                new CustomerInfo();
+                new DashboardActivity();
             } else {
                 JOptionPane.showMessageDialog(null, "Customer not found or data not updated.");
             }
+            conn.closeConnection();
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error updating data.");
@@ -346,7 +268,7 @@ public class AddReservation extends JFrame implements ActionListener {
 
             JOptionPane.showMessageDialog(null, "Data Updated Successfully");
             setVisible(false);
-            new Dashboard();
+            new DashboardActivity();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error updating data.");
@@ -355,6 +277,6 @@ public class AddReservation extends JFrame implements ActionListener {
     }*/
 
     public static void main(String args[]) {
-        new UpdateCheck();
+        new UpdateStatusCheck();
     }
 }

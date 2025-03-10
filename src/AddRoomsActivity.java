@@ -5,14 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import widgets.RoundedGradientButton;
 
-public class AddRooms extends JFrame implements ActionListener {
-    Dashboard.RoundedGradientButton addRoom, cancel;
+public class AddRoomsActivity extends JFrame implements ActionListener {
+    RoundedGradientButton addRoom;
+    RoundedGradientButton cancel;
     JTextField tfprice, tfroom;
     JComboBox<String> bedCombo, cleanCombo, availableCombo;
     DatabaseConnect connect; // Use a single connection instance
 
-    AddRooms() {
+    AddRoomsActivity() {
         setTitle("Hotel Management System - Add Room");
         setLayout(null);
         setVisible(true);
@@ -95,14 +97,14 @@ public class AddRooms extends JFrame implements ActionListener {
         bedCombo.setBackground(Color.white);
         add(bedCombo);
 
-        addRoom = new Dashboard.RoundedGradientButton("Add Room",  null);
+        addRoom = new RoundedGradientButton("Add Room",  null);
         addRoom.setBounds(60, 350, 130, 30);
         addRoom.setBackground(Color.black);
         addRoom.setForeground(Color.white);
         add(addRoom);
         addRoom.addActionListener(this);
 
-        cancel = new Dashboard.RoundedGradientButton("Cancel", null);
+        cancel = new RoundedGradientButton("Cancel", null);
         cancel.setBounds(220, 350, 130, 30);
         cancel.setBackground(Color.black);
         cancel.setForeground(Color.white);
@@ -113,7 +115,7 @@ public class AddRooms extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == cancel) {
             setVisible(false);
-            new RoomLists();
+            new RoomListsActivity();
         }
         if (ae.getSource() == addRoom) {
             String roomno = tfroom.getText();
@@ -154,7 +156,7 @@ public class AddRooms extends JFrame implements ActionListener {
 
                     JOptionPane.showMessageDialog(null, "New Room Added Successfully");
                     setVisible(false);
-                    new RoomLists();
+                    new RoomListsActivity();
 
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
@@ -165,6 +167,6 @@ public class AddRooms extends JFrame implements ActionListener {
     }
 
     public static void main(String args[]) {
-        new AddRooms();
+        new AddRoomsActivity();
     }
 }

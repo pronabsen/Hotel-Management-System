@@ -9,16 +9,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import widgets.RoundedGradientButton;
 
-public class AddCustomer extends JFrame implements ActionListener {
+public class AddGuestsActivity extends JFrame implements ActionListener {
     JComboBox<String> comboid;
     JTextField tfNumber, tfname, tfcountry, tfdeposite, tfmobileno;
     JRadioButton male, female;
     JLabel checkinTime;
     Choice croom;
-    Dashboard.RoundedGradientButton add, back;
+    RoundedGradientButton add;
+    RoundedGradientButton back;
 
-    public AddCustomer() {
+    public AddGuestsActivity() {
         setTitle("Hotel Management System - Add Customer");
         setSize(600, 700);
         getContentPane().setBackground(Color.white);
@@ -164,14 +166,14 @@ public class AddCustomer extends JFrame implements ActionListener {
         tfmobileno.setBounds(200, 400, 220, 25);
         formPanel.add(tfmobileno);
 
-        add = new Dashboard.RoundedGradientButton("ADD", null);
+        add = new RoundedGradientButton("ADD", null);
         add.setBounds(120, 450, 100, 40);
         add.setBackground(Color.BLACK);
         add.setForeground(Color.WHITE);
         formPanel.add(add);
         add.addActionListener(this);
 
-        back = new Dashboard.RoundedGradientButton("BACK", null);
+        back = new RoundedGradientButton("BACK", null);
         back.setBounds(300, 450, 100, 40);
         back.setBackground(Color.black);
         back.setForeground(Color.WHITE);
@@ -186,7 +188,7 @@ public class AddCustomer extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == back) {
             setVisible(false);
-            new Dashboard();
+            new DashboardActivity();
         } else if (ae.getSource() == add) {
             String id = (String) comboid.getSelectedItem();
             String name = tfname.getText();
@@ -237,7 +239,7 @@ public class AddCustomer extends JFrame implements ActionListener {
 
                 JOptionPane.showMessageDialog(null, "New Customer Added Successfully");
                 setVisible(false);
-                new Dashboard();
+                new DashboardActivity();
 
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Database Error! Please try again.");
@@ -247,6 +249,6 @@ public class AddCustomer extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new AddCustomer();
+        new AddGuestsActivity();
     }
 }

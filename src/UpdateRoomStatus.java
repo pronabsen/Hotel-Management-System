@@ -5,13 +5,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import widgets.RoundedGradientButton;
 
-public class UpdateRoom extends JFrame implements ActionListener {
+public class UpdateRoomStatus extends JFrame implements ActionListener {
     Choice customer;
     JTextField tfroom, tfstatus, tfavailable;
-    Dashboard.RoundedGradientButton check, update, back;
+    RoundedGradientButton check;
+    RoundedGradientButton update, back;
 
-    UpdateRoom() {
+    UpdateRoomStatus() {
         setTitle("Hotel Management System - Update Room Status");
         setBounds(300, 200, 480, 500);
         setLayout(null);
@@ -71,7 +73,7 @@ public class UpdateRoom extends JFrame implements ActionListener {
         add(tfstatus);
 
         // Button for checking room details
-        check = new Dashboard.RoundedGradientButton("CHECK", null);
+        check = new RoundedGradientButton("CHECK", null);
         check.setBackground(Color.black);
         check.setForeground(Color.white);
         check.setBounds(30, 340, 100, 30);
@@ -79,7 +81,7 @@ public class UpdateRoom extends JFrame implements ActionListener {
         check.addActionListener(this);
 
         // Button for updating room details
-        update = new Dashboard.RoundedGradientButton("UPDATE", null);
+        update = new RoundedGradientButton("UPDATE", null);
         update.setBackground(Color.black);
         update.setForeground(Color.white);
         update.setBounds(150, 340, 100, 30);
@@ -87,7 +89,7 @@ public class UpdateRoom extends JFrame implements ActionListener {
         update.addActionListener(this);
 
         // Button for going back to the dashboard
-        back = new Dashboard.RoundedGradientButton("BACK", null);
+        back = new RoundedGradientButton("BACK", null);
         back.setBackground(Color.black);
         back.setForeground(Color.white);
         back.setBounds(270, 340, 100, 30);
@@ -102,7 +104,7 @@ public class UpdateRoom extends JFrame implements ActionListener {
             fetchRoomDetails();
         } else if (ae.getSource() == back) {
             setVisible(false);
-            new Dashboard();
+            new DashboardActivity();
         }
     }
 
@@ -125,7 +127,7 @@ public class UpdateRoom extends JFrame implements ActionListener {
             conn.closeConnection();
             JOptionPane.showMessageDialog(null, "Room Status Updated Successfully");
             setVisible(false);
-            new Dashboard();
+            new DashboardActivity();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error updating room status.");
@@ -163,6 +165,6 @@ public class UpdateRoom extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new UpdateRoom();
+        new UpdateRoomStatus();
     }
 }

@@ -7,15 +7,17 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import databse.DatabaseConnect;
 import net.proteanit.sql.DbUtils;
+import widgets.RoundedGradientButton;
 
-public class SearchRooms extends JFrame implements ActionListener {
+public class SearchRoomsActivity extends JFrame implements ActionListener {
 
     JTable table;
-    Dashboard.RoundedGradientButton back, submit;
+    RoundedGradientButton back;
+    RoundedGradientButton submit;
     JComboBox<String> bedtypecombo;
     JCheckBox available;
 
-    SearchRooms() {
+    SearchRoomsActivity() {
         setTitle("Hotel Management System - Search Rooms");
         setBounds(300, 150, 1100, 700);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -50,7 +52,7 @@ public class SearchRooms extends JFrame implements ActionListener {
         available.setBackground(Color.white);
         add(available);
 
-        submit = new Dashboard.RoundedGradientButton("Filter", null);
+        submit = new RoundedGradientButton("Filter", null);
         submit.setBounds(650, 80, 120, 35);
         submit.setFont(new Font("Raleway", Font.BOLD, 14));
         submit.setBackground(Color.BLACK);
@@ -83,7 +85,7 @@ public class SearchRooms extends JFrame implements ActionListener {
 
 
 
-        back = new Dashboard.RoundedGradientButton("BACK", null);
+        back = new RoundedGradientButton("BACK", null);
         back.setBounds(500, 550, 120, 35);
         back.setFont(new Font("Raleway", Font.BOLD, 14));
         back.setBackground(Color.BLACK);
@@ -98,7 +100,7 @@ public class SearchRooms extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == back) {
             setVisible(false);
-            new Dashboard();
+            new DashboardActivity();
         } else if (ae.getSource() == submit) {
             String query;
             String selectedBedType = bedtypecombo.getSelectedItem().toString();
@@ -139,6 +141,6 @@ public class SearchRooms extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new SearchRooms();
+        new SearchRoomsActivity();
     }
 }

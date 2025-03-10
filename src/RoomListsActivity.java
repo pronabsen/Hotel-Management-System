@@ -7,16 +7,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
-
+import widgets.RoundedGradientButton;
 import databse.DatabaseConnect;
 import net.proteanit.sql.*;
 
-public class RoomLists extends JFrame implements ActionListener {
+public class RoomListsActivity extends JFrame implements ActionListener {
 
     JTable table;
-    Dashboard.RoundedGradientButton addRoom, back, addReservation;
+    RoundedGradientButton addRoom;
+    RoundedGradientButton back, addReservation;
 
-    RoomLists(){
+    RoomListsActivity(){
         setTitle("Hotel Management System - Room Management");
         setVisible(true);
         setLayout(null);
@@ -32,7 +33,7 @@ public class RoomLists extends JFrame implements ActionListener {
         add(title);
 
         // Add Button
-        addRoom = new Dashboard.RoundedGradientButton("Add Room", null);
+        addRoom = new RoundedGradientButton("Add Room", null);
         addRoom.setFont(new Font("Raleway", Font.BOLD, 16));
         addRoom.setBackground(Color.BLACK);
         addRoom.setForeground(Color.WHITE);
@@ -42,7 +43,7 @@ public class RoomLists extends JFrame implements ActionListener {
 
 
         // Add Button
-        addReservation = new Dashboard.RoundedGradientButton("Add Reservation", null);
+        addReservation = new RoundedGradientButton("Add Reservation", null);
         addReservation.setFont(new Font("Raleway", Font.BOLD, 16));
         addReservation.setBackground(Color.BLACK);
         addReservation.setForeground(Color.WHITE);
@@ -95,7 +96,7 @@ public class RoomLists extends JFrame implements ActionListener {
         }
 
         // Back Button
-        back = new Dashboard.RoundedGradientButton("BACK", null);
+        back = new RoundedGradientButton("BACK", null);
         back.setFont(new Font("Raleway", Font.BOLD, 16));
         back.setBackground(Color.BLACK);
         back.setForeground(Color.WHITE);
@@ -109,16 +110,16 @@ public class RoomLists extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource()==back){
             setVisible(false);
-            new Dashboard();
+            new DashboardActivity();
         } else if (ae.getSource()==addRoom) {
             setVisible(false);
-            new AddRooms();
+            new AddRoomsActivity();
         } else if (ae.getSource()==addReservation) {
             setVisible(false);
-            new AddReservation();
+            new AddReservationActivity();
         }
     }
     public static void main(String args[]){
-        new RoomLists();
+        new RoomListsActivity();
     }
 }
